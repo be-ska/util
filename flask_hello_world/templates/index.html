@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ data.title }}</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <style>
+        .container {
+            margin-top: 30px;
+        }
+        .spacer {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1 class="text-center">{{ data.title }}</h1>
+
+        <!-- GNSS Information -->
+        <div class="spacer"></div>
+        <h2>GNSS Information</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Fix: {{ data.gnss_info.fix }}</li>
+            <li class="list-group-item">Satellites: {{ data.gnss_info.sat }}</li>
+            <li class="list-group-item">Latitude: {{ data.gnss_info.lat }}</li>
+            <li class="list-group-item">Longitude: {{ data.gnss_info.lon }}</li>
+            <li class="list-group-item">Altitude: {{ data.gnss_info.alt }} cm</li>
+            <li class="list-group-item">Voltage: {{ data.gnss_info.volt }} mV</li>
+            <li class="list-group-item">Mode: {{ data.gnss_info.mode }}</li>
+        </ul>
+
+        <!-- Access Point Mode -->
+        <div class="spacer"></div>
+        <h2>Access Point Mode</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Connected Clients: {{ data.ap_mode.clients }}</li>
+            <li class="list-group-item">SSID: {{ data.ap_mode.ssid }}</li>
+            <li class="list-group-item">WiFi Channel: {{ data.ap_mode.channel }}</li>
+        </ul>
+
+        <!-- External Server Mode -->
+        <div class="spacer"></div>
+        <h2>External Server Mode</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Caster State: {{ data.external_server.caster_state }}</li>
+            <li class="list-group-item">SSID: {{ data.external_server.ssid }}</li>
+            <li class="list-group-item">Caster IP: {{ data.external_server.caster }}</li>
+            <li class="list-group-item">Mount: {{ data.external_server.mount }}</li>
+            <li class="list-group-item">Mount Password: {{ data.external_server.mount_pass }}</li>
+        </ul>
+
+        <!-- Survey Information -->
+        <div class="spacer"></div>
+        <h2>Survey Information</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Survey: {{ data.survey_info.survey }}</li>
+            <li class="list-group-item">Position Acquired: {{ data.survey_info.srvalid }}</li>
+            <li class="list-group-item">Current Accuracy: {{ data.survey_info.curracc }} cm</li>
+            <li class="list-group-item">Minimum Duration: {{ data.survey_info.mindur }} s</li>
+            <li class="list-group-item">Accuracy Limit: {{ data.survey_info.acccm }} cm</li>
+        </ul>
+
+        <!-- Static Position -->
+        <div class="spacer"></div>
+        <h2>Static Position</h2>
+        <ul class="list-group">
+            <li class="list-group-item">Status: {{ data.static_position.static }}</li>
+            <li class="list-group-item">Latitude: {{ data.static_position.lat }}</li>
+            <li class="list-group-item">Longitude: {{ data.static_position.lon }}</li>
+            <li class="list-group-item">Altitude: {{ data.static_position.alt }} cm</li>
+        </ul>
+    </div>
+
+    <!-- Include Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
