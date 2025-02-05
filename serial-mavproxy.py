@@ -27,11 +27,19 @@ def find_serial_device():
 if __name__ == "__main__":
     serial_device = find_serial_device()
     other_options = ""
+    conection_string = f"--master=/dev/{serial_device}"
+
+    # if the --noserial flag is found, do not pass the serial device to mavproxy
+    # and pass the rest of the arguments as is
     if len(sys.argv) > 1 :
+        if "--noserial" in sys.argv:
+            conection_string = ""
+            serial_device = True
+            sys.argv.remove("--noserial")
         other_options =  ' '.join(sys.argv[1:])
 
     if serial_device:
         print(other_options)
-        os.system(f"mavproxy.py --master=/dev/{serial_device} --console {other_options}")
+        os.system(f"mavproxy.py {conection_string} --console {other_options}")
     else:
         print("Serial device not found, mavproxy not launched.")
