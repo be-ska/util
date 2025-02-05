@@ -15,7 +15,7 @@ def find_serial_device():
         return serial_devices[0]
     else:
         # Relax serial filter
-        serial_devices = [dev for dev in dev_list if 'tty.usbmodem' in dev]
+        serial_devices = [dev for dev in dev_list if 'tty.usb' in dev]
 
     if serial_devices:
         print(f"Serial device found: {serial_devices[0]}")
