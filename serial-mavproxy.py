@@ -25,9 +25,6 @@ def find_serial_device():
         return None
 
 if __name__ == "__main__":
-    # Name of the application to launch
-    application_to_launch = "your_application"
-
     serial_device = find_serial_device()
     other_options = ""
     if len(sys.argv) > 1 :
