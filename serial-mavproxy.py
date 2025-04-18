@@ -25,21 +25,37 @@ def find_serial_device():
         return None
 
 if __name__ == "__main__":
-    serial_device = find_serial_device()
+    serial_device = False
     other_options = ""
-    conection_string = f"--master=/dev/{serial_device}"
+    conection_string = ""
 
-    # if the --noserial flag is found, do not pass the serial device to mavproxy
-    # and pass the rest of the arguments as is
+    if "--noserial" in sys.argv:
+        # if the --noserial flag is found, do not pass the serial device to mavproxy
+        sys.argv.remove("--noserial")
+    elif "--sitl" in sys.argv:
+        # connect to sitl
+        conection_string = "--master=tcp:127.0.0.1:5760"
+        sys.argv.remove("--sitl")
+    else:
+        # default try to connect to a serial device, most used case
+        serial_device = find_serial_device()
+        conection_string = f"--master=/dev/{serial_device}"
+        if not serial_device:
+            print("Serial device not found, mavproxy not launched.")
+            sys.exit(1)
+
+    # choose mavproxy version
+    if "--stable" in sys.argv:
+        # run mavproxy stable (pip)
+        mavproxy = f"~/.pyenv/versions/3.10.3/bin/python ~/.pyenv/versions/3.10.3/bin/mavproxy.py"
+        sys.argv.remove("--stable")
+    else:
+        # run mavproxy master
+        mavproxy = f"~/.pyenv/versions/3.13.0/bin/python ~/code/MAVProxy/MAVProxy/mavproxy.py"
+
+    # pass the rest of the arguments as is
     if len(sys.argv) > 1 :
-        if "--noserial" in sys.argv:
-            conection_string = ""
-            serial_device = True
-            sys.argv.remove("--noserial")
         other_options =  ' '.join(sys.argv[1:])
 
-    if serial_device:
-        print(other_options)
-        os.system(f"mavproxy.py {conection_string} --console {other_options}")
-    else:
-        print("Serial device not found, mavproxy not launched.")
+    # run mavproxy
+    os.system(f"{mavproxy} {conection_string} --console {other_options}")
