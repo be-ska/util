@@ -12,9 +12,9 @@ def send_motortest(master, throttle_value):
         mavutil.mavlink.MAV_CMD_DO_MOTOR_TEST,
         0,  # Confirmation
         1,  # Motor index (1-8)
-        0,  # Throttle type (0=Percentage, 1=PWM)
+        1,  # Throttle type (0=Percentage, 1=PWM)
         throttle_value,  # Throttle value 
-        10,  # Timeout in seconds
+        20,  # Timeout in seconds
         0, 0, 0, 0  # Unused parameters
     )
     
@@ -34,11 +34,11 @@ if len(sys.argv) > 1 and sys.argv[1] == '--loop':
 # else wait the percentage input from user and send it
 else:
     while True:
-        user_input = input("Enter throttle value (0-100): ")
+        user_input = input("Enter throttle value (1000-2000): ")
         try:
             throttle_value = int(user_input)
             # prevent typos
-            if throttle_value < 0 or throttle_value > 100:
+            if throttle_value < 1000 or throttle_value > 2200:
                 print("Invalid input. Please enter a number between 0 and 100.")
                 throttle_value = 0
         except ValueError:
