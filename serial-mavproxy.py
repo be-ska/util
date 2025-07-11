@@ -2,6 +2,7 @@
 
 import os
 import sys
+import time
 
 def find_serial_device():
     # List all devices in /dev directory
@@ -21,7 +22,6 @@ def find_serial_device():
         print(f"Serial device found: {serial_devices[0]}")
         return serial_devices[0]
     else:
-        print("No matching serial device found.")
         return None
 
 if __name__ == "__main__":
@@ -38,8 +38,13 @@ if __name__ == "__main__":
         sys.argv.remove("--sitl")
     else:
         # default try to connect to a serial device, most used case
+        start_time = time.time()
         serial_device = find_serial_device()
-        conection_string = f"--master=/dev/{serial_device}"
+        while not serial_device and time.time() - start_time < 10:
+            print("Serial device not found, retrying.")
+            serial_device = find_serial_device()
+            time.sleep(1)
+        conection_string = f"--master=/dev/{serial_device} --load-module graph"
         if not serial_device:
             print("Serial device not found, mavproxy not launched.")
             sys.exit(1)
