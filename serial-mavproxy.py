@@ -34,7 +34,7 @@ if __name__ == "__main__":
         sys.argv.remove("--noserial")
     elif "--sitl" in sys.argv:
         # connect to sitl
-        conection_string = "--master=tcp:127.0.0.1:5760"
+        conection_string = "--master=tcp:127.0.0.1:5760 --load-module horizon,map,graph"
         sys.argv.remove("--sitl")
     else:
         # default try to connect to a serial device, most used case
