@@ -7,6 +7,9 @@ import signal
 from typing import Optional
 from pymavlink import mavutil
 
+# Add this param to mavproxy:
+# --out=udp:localhost:14551
+
 # Motor test parameters:
 # param1: motor index (1-8 for specific motor, or 0 for all depending on firmware)
 # param2: throttle type (0 = percent, 1 = PWM)
