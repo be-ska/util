@@ -12,7 +12,7 @@ def find_serial_device():
     serial_devices = [dev for dev in dev_list if 'tty.usbmodem1' in dev]
 
     if serial_devices:
-        print(f"Serial device found: {serial_devices[0]}")
+        print(f"\nSerial device found: {serial_devices[0]}")
         return serial_devices[0]
     else:
         # Relax serial filter
@@ -40,23 +40,24 @@ if __name__ == "__main__":
         # default try to connect to a serial device, most used case
         start_time = time.time()
         serial_device = find_serial_device()
-        while not serial_device and time.time() - start_time < 10:
-            print("Serial device not found, retrying.")
-            serial_device = find_serial_device()
+        print("Wait for serial device")
+        while not serial_device and time.time() - start_time < 100:
+            print(".", end="", flush=True)
             time.sleep(1)
-        conection_string = f"--master=/dev/{serial_device} --load-module graph"
+            serial_device = find_serial_device()
+        conection_string = f"--master=/dev/{serial_device} --load-module graph,message"
         if not serial_device:
             print("Serial device not found, mavproxy not launched.")
             sys.exit(1)
 
     # choose mavproxy version
-    if "--stable" in sys.argv:
-        # run mavproxy stable (pip)
-        mavproxy = f"~/.pyenv/versions/3.10.3/bin/python ~/.pyenv/versions/3.10.3/bin/mavproxy.py"
-        sys.argv.remove("--stable")
-    else:
+    if "--dev" in sys.argv:
         # run mavproxy master
         mavproxy = f"~/.pyenv/versions/3.13.0/bin/python ~/code/MAVProxy/MAVProxy/mavproxy.py"
+        sys.argv.remove("--dev")
+    else:
+        # run mavproxy stable (pip)
+        mavproxy = f"~/.pyenv/versions/3.10.4/bin/python ~/.pyenv/versions/3.10.4/bin/mavproxy.py"
 
     # pass the rest of the arguments as is
     if len(sys.argv) > 1 :
