@@ -50,14 +50,8 @@ if __name__ == "__main__":
             print("Serial device not found, mavproxy not launched.")
             sys.exit(1)
 
-    # choose mavproxy version
-    if "--dev" in sys.argv:
-        # run mavproxy master
-        mavproxy = f"~/.pyenv/versions/3.13.0/bin/python ~/code/MAVProxy/MAVProxy/mavproxy.py"
-        sys.argv.remove("--dev")
-    else:
-        # run mavproxy stable (pip)
-        mavproxy = f"~/.pyenv/versions/3.10.4/bin/python ~/.pyenv/versions/3.10.4/bin/mavproxy.py"
+    # run mavproxy master
+    mavproxy = "mavproxy.py"
 
     # pass the rest of the arguments as is
     if len(sys.argv) > 1 :
